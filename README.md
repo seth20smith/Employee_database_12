@@ -47,3 +47,25 @@ nter the employee’s first name, last name, role, and manager, and that employe
 
 update an employee role
 select an employee to update and their new role and this information is updated in the database
+
+
+
+   if (option.role == "update an employee role") {
+            inquirer.prompt([
+                {
+                    type: 'input',
+                    name: 'employeeUpdate',
+                    message: "What is the ID of the employee you would like to update?",
+                },
+                {
+                    type: 'input',
+                    name: 'employeeNewIdRole',
+                    message: "What is the new ID role of the employee you want to update?",
+                },
+                
+            ]) .then (employeeUpdates => {
+                db.query( `UPDATE employee SET role_id='${employeeUpdates.employeeNewIdRole} WHERE id=${employeeUpdates.employeeUpdate} ;`, (err, rows) => {
+
+            })
+        })
+    }
