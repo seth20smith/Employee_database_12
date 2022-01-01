@@ -1,0 +1,189 @@
+const mysql = require('mysql2')
+const inquirer = require('inquirer')
+// const consoleTable = require('console.table')
+const db = mysql.createConnection(
+    {
+        host: 'localhost',
+        // Your MySQL username,
+        user: 'root',
+        // Your MySQL password
+        password: '',
+        database: 'employees'
+    },
+    console.log('Connected to the election database.')
+);
+
+// view all roles
+// job title, role id, the department that role belongs to, and the salary for that role
+
+// view all employees
+// table showing employee data, including employee ids, first names, last names, job titles, departments, salaries, and managers that the employees report to
+
+// add a department
+// name of the department and that department is added to the database
+
+// add a role
+// enter the name, salary, and department for the role and that role is added to the database
+
+// add an employee
+// nter the employee’s first name, last name, role, and manager, and that employee is added to the database
+
+// update an employee role
+// select an employee to update and their new role and this information is updated in the database
+
+// opening question
+inquirer.prompt([
+    {
+        message: 'What would you like to do?',
+        name: 'role',
+        type: 'list',
+        choices: ["view all departments", "view all roles", "view all employees", "add a department", "add a role", "add an employee", "update an employee role"],
+    },
+]).then( // VIEW DEPARTMENTS
+    option => { 
+        if (option.role == "view all departments") {
+            db.query(`SELECT * FROM department`, (err, rows) => {
+                console.log(rows);
+            })
+        }
+        if (option.role == "view all roles") {
+            db.query(`SELECT * FROM role`, (err, rows) => {
+                console.log(rows);
+            })
+        }
+        if (option.role == "view all employees") {
+            db.query(`SELECT * FROM employee`, (err, rows) => {
+                console.log(rows);
+            })
+        } // ADD TO DEPARTMENT
+        if (option.role == "add a department") {
+            inquirer.prompt([
+                {
+                    type: 'input',
+                    name: 'departmentData',
+                    message: "What is that name of your department?",
+                },
+            ]) .then (departmentInfo => {
+                db.query(`INSERT INTO department (name) VALUES ('${departmentInfo.departmentData}');`, (err, rows) => {
+                })
+
+             })
+        }
+            // ADD ROLE
+        if (option.role == "add a role") {
+                inquirer.prompt([
+                    {
+                        type: 'input',
+                        name: 'roleTitle',
+                        message: "What is that name of your department?",
+                    },
+                    {
+                        type: 'input',
+                        name: 'roleSalary',
+                        message: "What is this roles salary?",
+                    },
+                    {
+                        type: 'input',
+                        name: 'roleDepartmentId',
+                        message: "What is the Department ID?",
+                    },
+                ]) .then (roleInfo => {
+                    db.query(`INSERT INTO role (title, salary, department_id) VALUES ('${roleInfo.roleTitle}','${roleInfo.roleSalary}','${roleInfo.roleDepartmentId}');`, (err, rows) => {
+                    })
+                    
+                 })
+        }
+                //         (title, salary, department_id)
+
+        if (option.role == "add an employee") {
+            // add employee
+            inquirer.prompt([
+                {
+                    type: 'input',
+                    name: 'employeeFirstName',
+                    message: "What is the first name of the employee you want to add?",
+                },
+                {
+                    type: 'input',
+                    name: 'employeeLastName',
+                    message: "What is the last name of the employee you want to add?",
+                },
+                {
+                    type: 'input',
+                    name: 'employeeIdRole',
+                    message: "What is the ID role of the employee you want to add?",
+                },
+                {
+                    type: 'input',
+                    name: 'employeeManagerID',
+                    message: "What is their Manager ID?",
+                }, 
+                 // ADD EMPLOYEE
+            ]) .then (employeeInfo => {
+                db.query(`INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ('${employeeInfo.employeeFirstName}' , '${employeeInfo.employeeLastName}', '${employeeInfo.employeeIdRole}', '${employeeInfo.employeeManagerID}');`, (err, rows) => {
+
+                })
+                // ('John', 'Doe', 1, NULL)
+                
+
+             })
+
+        }
+
+    })
+
+
+ // if (option.role == "update an employee role") {
+
+
+//     // add employee
+// inquirer.prompt([
+// {
+//     type: 'input',
+//     name: 'employeeFirstName',
+//     message: "What is the first name of the employee you want to add?",
+// },
+// {
+//     type: 'input',
+//     name: 'employeeLastName',
+//     message: "What is the last name of the employee you want to add?",
+// },
+// {
+//     type: 'input',
+//     name: 'employeeIdRole',
+//     message: "What is the ID role of the employee you want to add?",
+// },
+
+
+
+
+
+
+
+
+
+
+
+
+// inquirer.prompt({
+
+//     message: 'Do you want to add another Employee?',
+//     name: 'boolean',
+//     type: 'list',
+//     choices: ['Yes', 'No']
+// }).then(again => {
+
+//     if (again.boolean == 'Yes') {
+//         addEmployee()
+//     } else writeHtml()
+// })
+
+
+
+        // "View all Departments", "View all Roles", 
+        // "View All Employees", "View all Employees by Department", 
+        // "View all Managers", "View Budget of each Department", 
+        // "Add a Department", "Add a Role', "Add Employee", 
+        // "Update an Employee Role", "Update an Employee Manager", 
+        // "Delete a Department", "Delete a Role", 
+        // "Delete an employee", Quit
