@@ -1,5 +1,5 @@
-# Employee_database_12
-challenge 12 sql employee manager
+**Employee database**
+sql employee manager
 
 
 <!-- npm install jest ?? -->
@@ -47,6 +47,10 @@ nter the employee’s first name, last name, role, and manager, and that employe
 
 update an employee role
 select an employee to update and their new role and this information is updated in the database
+
+
+![BackendEmployee](https://github.com/seth20smith/Employee_database_12/assets/91171134/3b1a06cf-9aae-46e8-98b5-684f80ae7683)
+
 
 
 
